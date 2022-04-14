@@ -2,7 +2,7 @@ import {Container, Row, Col} from 'react-bootstrap'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import React, {useEffect , useRef} from 'react';
+import React, {useEffect} from 'react';
 
 
 const keys = [
@@ -19,17 +19,25 @@ const keys = [
 ]
 
 function App () {
-
-  const playFunction = (c) =>  {
-    document.getElementById(c).play()
-  }
+    useEffect(() => {
+      window.addEventListener('keydown', e => {
+        keys.map((item ) => {
+          if(item[0] == e.key.toUpperCase()){
+            playFunction(item[0])
+          }
+        })
+      });
+    }, []);
+    const playFunction = (c) =>  {
+      document.getElementById(c).play()
+    }
     return(
       <Container  id='drum-machine'>
         <Container>
           <Row>
             {
               keys.slice(0, 3).map((item) => 
-                <Col key={item[0]} className='drum-pad'>
+                <Col onClick={() => playFunction(item[0])} key={item[0]} className='drum-pad'>
                   {item[0]}
                   <audio  className="clip" id={item[0]} src={item[1]}></audio>
                 </Col>
@@ -39,7 +47,7 @@ function App () {
           <Row>
           {
               keys.slice(3, 6).map((item) => 
-                <Col key={item[0]} className='drum-pad'>
+                <Col onClick={() => playFunction(item[0])} key={item[0]} className='drum-pad'>
                   {item[0]}
                   <audio  className="clip" id={item[0]} src={item[1]}></audio>
                 </Col>
@@ -49,7 +57,7 @@ function App () {
           <Row>
           {
               keys.slice(6, 9).map((item) => 
-                <Col key={item[0]} className='drum-pad'>
+                <Col onClick={() => playFunction(item[0])} key={item[0]} className='drum-pad'>
                   {item[0]}
                   <audio  className="clip" id={item[0]} src={item[1]}></audio>
                 </Col>
